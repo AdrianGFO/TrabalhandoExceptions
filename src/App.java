@@ -11,7 +11,7 @@ public class App {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Scanner sc = new Scanner(System.in);
 
-Date now = new Date();
+        Reservation reserva = null;
 
 System.out.print("Room number: ");
 Integer roomNumber = sc.nextInt();
@@ -19,16 +19,30 @@ System.out.print("Check-in date (dd/MM/yyyy): ");
 Date checkin  = sdf.parse(sc.next());
 System.out.print("Check-out date (dd/MM/yyyy): ");
 Date checkout = sdf.parse(sc.next());
-
+    
+Date now = new Date();
 if(checkin.after(now)){
 if(!checkin.after(checkout)){
-        Reservation reserva = new Reservation(roomNumber, checkin, checkout);
+        reserva = new Reservation(roomNumber, checkin, checkout);
         System.out.println(reserva.toString());
 } else{
     System.out.println("o check-out não pode ser antes do check-in!");
 }
 }  else{
     System.out.println("O check-in deve ser data futura.");
-}      
+}
+
+System.out.println("\nEnter data to update the reservation: ");
+System.out.print("Check-in date (dd/MM/yyyy): ");
+checkin = sdf.parse(sc.next());
+System.out.print("Check-out date (dd/MM/yyyy): ");
+checkout = sdf.parse(sc.next());
+
+String error = reserva.updateDates(checkin, checkout);
+
+if(error != null){
+    System.out.println("Error in reservation: " + error);
+}
+    System.out.println("Reservation: " + reserva);
     }
 }
