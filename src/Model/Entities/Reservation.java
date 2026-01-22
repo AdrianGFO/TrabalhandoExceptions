@@ -2,11 +2,13 @@ package Model.Entities;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class Reservation {
     private Integer roomNumber;
     private Date checkin;
     private Date checkout;
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
     public Reservation(Integer roomNumber, Date checkin, Date checkout){
         this.roomNumber = roomNumber;
@@ -28,9 +30,9 @@ public class Reservation {
         return checkout;
     }
 
-    public Integer duration(){
+    public long duration(){
         long dif = getCheckout().getTime() - getCheckin().getTime();
-        return (int)(dif / (1000 * 60 * 60 * 24 ));
+        return TimeUnit.MILLISECONDS.toDays(dif);
     }
 
     public void updateDates(Date checkin, Date checkout){
@@ -40,8 +42,6 @@ public class Reservation {
 
     @Override
     public String toString() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
         return "Reservation: Room " + roomNumber + ", check-in: " + sdf.format(checkin) + 
         ", check-out: " + sdf.format(checkout) + ", " + duration() + " nights.";
     }
